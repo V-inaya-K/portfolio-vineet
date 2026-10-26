@@ -15,6 +15,21 @@
     --color-blue-soft: #EAF3FF;
     --color-blue-line: rgba(11, 99, 206, 0.18);
 
+    /* Semantic theme tokens (default = light) */
+    --bg: var(--color-white);
+    --bg-soft: rgba(255, 255, 255, 0.94);
+    --text: var(--color-black);
+    --text-soft: #FFFFFF;
+    --accent: var(--color-black);
+    --accent-text: var(--color-white);
+    --line: var(--color-gray);
+    --chip-bg: var(--color-charcoal);
+    --chip-text: #FFFFFF;
+    --grid-line: var(--color-blue-line);
+    --box-shadow: rgba(10, 10, 10, 0.05);
+    --glow: rgba(11, 99, 206, 0.08);
+    --transition-theme: background-color 0.35s ease, color 0.35s ease, border-color 0.35s ease, box-shadow 0.35s ease;
+
     /* Typography */
     --font-primary: 'Inter var', -apple-system, BlinkMacSystemFont, 'Segoe UI',
                     Roboto, 'Helvetica Neue', Arial, sans-serif;
@@ -70,6 +85,38 @@
     --text-6xl: 3.75rem;  /* 60px */
 }
 
+html[data-theme="dark"] {
+    --color-white: #10141D;
+    --color-black: #F3F6FC;
+    --color-gray: #2D3445;
+    --color-charcoal: #20293A;
+    --color-muted: #B7C0D4;
+    --color-blue: #4D8DF5;
+    --color-blue-soft: #14233d;
+    --color-blue-line: rgba(255, 255, 255, 0.075);
+    --border-thin: 1px solid var(--color-gray);
+    --border-medium: 2px solid var(--color-gray);
+    --shadow-sm: 0 1px 3px rgba(0, 0, 0, 0.35), 0 1px 2px rgba(0, 0, 0, 0.25);
+    --shadow-md: 0 8px 18px rgba(0, 0, 0, 0.32);
+    --shadow-lg: 0 16px 36px rgba(0, 0, 0, 0.38);
+}
+
+html[data-theme="dark"] body {
+    background:
+        linear-gradient(var(--color-blue-line) 1px, transparent 1px),
+        linear-gradient(90deg, var(--color-blue-line) 1px, transparent 1px),
+        #0B0E14;
+    background-size: 72px 72px;
+}
+
+html[data-theme="dark"] .hero {
+    background:
+        linear-gradient(var(--color-blue-line) 1px, transparent 1px),
+        linear-gradient(90deg, var(--color-blue-line) 1px, transparent 1px),
+        transparent;
+    background-size: 72px 72px;
+}
+
 /* Reset and Base Styles */
 *,
 *::before,
@@ -102,6 +149,7 @@ body {
     background-attachment: fixed;
     overflow-x: hidden;
     cursor: default;
+    transition: var(--transition-theme);
 }
 
 /* Typography Hierarchy - Crisp and Legible */
@@ -260,12 +308,88 @@ a:focus-visible {
 .header-actions {
     display: flex;
     gap: var(--space-3);
+    align-items: center;
+}
+
+.theme-toggle {
+    appearance: none;
+    border: 0;
+    background: transparent;
+    padding: 0;
+    cursor: pointer;
+    border-radius: var(--radius-full);
+}
+
+.theme-toggle:focus-visible {
+    outline: 2px solid var(--color-blue);
+    outline-offset: 3px;
+}
+
+.theme-toggle-track {
+    width: 4.35rem;
+    height: 2.35rem;
+    border: 2px solid var(--color-black);
+    border-radius: var(--radius-full);
+    background: var(--color-white);
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    align-items: center;
+    position: relative;
+    box-shadow: var(--shadow-sm);
+    transition: var(--transition-theme), transform var(--transition-smooth);
+}
+
+.theme-toggle:hover .theme-toggle-track {
+    transform: translateY(-2px);
+    box-shadow: var(--shadow-md);
+}
+
+.theme-toggle-icon {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: var(--text-sm);
+    font-weight: 800;
+    color: var(--color-black);
+    z-index: 1;
+    line-height: 1;
+    transition: color var(--transition-smooth), opacity var(--transition-smooth);
+}
+
+.theme-toggle-thumb {
+    position: absolute;
+    width: 1.72rem;
+    height: 1.72rem;
+    left: 0.22rem;
+    top: 50%;
+    border-radius: 50%;
+    background: var(--color-black);
+    transform: translateY(-50%);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.18);
+    transition: transform 0.42s cubic-bezier(0.34, 1.56, 0.64, 1), background-color var(--transition-smooth);
+}
+
+html[data-theme="dark"] .theme-toggle-thumb {
+    transform: translate(1.96rem, -50%);
+}
+
+html[data-theme="dark"] .theme-toggle-track {
+    background: #151B28;
+    border-color: var(--color-blue);
+}
+
+html[data-theme="dark"] .theme-toggle-sun {
+    opacity: 0.45;
+}
+
+html[data-theme="dark"] .theme-toggle-moon {
+    color: var(--color-white);
 }
 
 /* Hero Section */
 .hero {
     background-color: transparent;
-    padding: var(--space-24) 0 var(--space-20);
+    padding: var(--space-20) 0 var(--space-8);
     position: relative;
     overflow: hidden;
 }
@@ -274,9 +398,15 @@ a:focus-visible {
     content: "";
     position: absolute;
     inset: 0;
-    background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.7) 48%, var(--color-white));
+    background: linear-gradient(90deg, transparent, var(--color-white) 70%);
     opacity: 0.85;
     pointer-events: none;
+}
+
+html[data-theme="dark"] .hero::before {
+    display: block;
+    background: linear-gradient(90deg, transparent 0 43%, rgba(11, 14, 20, 0.74) 54%, rgba(11, 14, 20, 0.9) 100%);
+    opacity: 1;
 }
 
 .hero::after {
@@ -292,6 +422,17 @@ a:focus-visible {
     opacity: 0.45;
     pointer-events: none;
     animation: floatBox 7s ease-in-out infinite;
+}
+
+html[data-theme="dark"] .hero::after,
+html[data-theme="dark"] .profile-placeholder::before,
+html[data-theme="dark"] .profile-placeholder::after {
+    border-color: rgba(255, 255, 255, 0.16);
+    opacity: 0.32;
+}
+
+html[data-theme="dark"] .profile-frame {
+    box-shadow: 18px 18px 0 rgba(77, 141, 245, 0.1);
 }
 
 .hero-content {
@@ -371,7 +512,7 @@ a:focus-visible {
 /* Add margin-top to hero section to prevent touching navbar */
 .hero {
     background-color: transparent;
-    padding: var(--space-24) 0 var(--space-20);
+    padding: var(--space-20) 0 var(--space-8);
     position: relative;
     overflow: hidden;
     margin-top: calc(var(--space-4) + var(--space-8)); /* header padding + margin */
@@ -477,7 +618,7 @@ a:focus-visible {
     letter-spacing: 0.05em;
     position: relative;
     overflow: hidden;
-    background: transparent;
+    background: var(--color-white);
     color: var(--color-black);
     font-family: var(--font-primary);
 }
@@ -503,16 +644,19 @@ a:focus-visible {
 
 .btn-primary {
     border-color: var(--color-black);
+    background-color: var(--color-white);
     color: var(--color-black);
 }
 
 .btn-primary:hover {
     background-color: var(--color-black);
+    border-color: var(--color-black);
     color: var(--color-white);
 }
 
 .btn-secondary {
     border-color: var(--color-black);
+    background-color: var(--color-white);
     color: var(--color-black);
 }
 
@@ -525,9 +669,9 @@ a:focus-visible {
     display: inline-flex;
     align-items: center;
     gap: var(--space-2);
-    border-color: var(--color-charcoal);
-    color: var(--color-charcoal);
-    background: transparent;
+    border-color: var(--color-black);
+    color: var(--color-black);
+    background: var(--color-white);
     padding: var(--space-2) var(--space-4);
 }
 
@@ -554,10 +698,10 @@ a:focus-visible {
     border: var(--border-thin);
     border-radius: var(--radius-lg);
     padding: var(--space-12);
-    margin: var(--space-8) auto;
+    margin: var(--space-4) auto var(--space-8);
     max-width: 72rem;
     width: calc(100% - var(--space-12));
-    box-shadow: 0 18px 44px rgba(10, 10, 10, 0.05);
+    box-shadow: var(--shadow-md);
 }
 
 .metrics-grid {
@@ -603,15 +747,16 @@ a:focus-visible {
 .competencies {
     background-color: transparent;
     overflow: hidden;
+    padding: var(--space-8) 0;
 }
 
 .competencies > .container {
-    background-color: rgba(255, 255, 255, 0.94);
+    background-color: var(--color-white);
     border: var(--border-thin);
     border-radius: var(--radius-lg);
     padding-top: var(--space-10);
     padding-bottom: var(--space-10);
-    box-shadow: 0 18px 44px rgba(10, 10, 10, 0.05);
+    box-shadow: var(--shadow-md);
 }
 
 /* Skills Scrolling Banner Container */
@@ -658,13 +803,13 @@ a:focus-visible {
 
 .skill-tag {
     flex: 0 0 auto;
-    background-color: rgba(255, 255, 255, 0.94);
-    border: 1px solid rgba(0,0,0, 0.28);
+    background-color: var(--color-white);
+    border: 1px solid var(--color-gray);
     border-radius: var(--radius-md);
     padding: var(--space-2) var(--space-4);
     font-size: var(--text-sm);
     font-weight: 700;
-    color: #000000;
+    color: var(--color-black);
     white-space: nowrap;
     transition: all var(--transition-base);
     box-shadow: 0 4px 0 rgba(11, 99, 206, 0.1);
@@ -899,7 +1044,7 @@ a:focus-visible {
 .competency-categories {
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(16rem, 1fr));
-    gap: var(--space-8);
+    gap: var(--space-4);
 }
 
 .category {
@@ -954,20 +1099,21 @@ a:focus-visible {
 /* Experience Section */
 .experience {
     background-color: transparent;
+    padding: var(--space-8) 0;
 }
 
 .experience > .container {
-    background-color: rgba(255, 255, 255, 0.94);
+    background-color: var(--color-white);
     border: var(--border-thin);
     border-radius: var(--radius-lg);
     padding-top: var(--space-10);
     padding-bottom: var(--space-10);
-    box-shadow: 0 18px 44px rgba(10, 10, 10, 0.05);
+    box-shadow: var(--shadow-md);
 }
 
 .timeline {
     display: grid;
-    gap: var(--space-12);
+    gap: var(--space-4);
 }
 
 .timeline-item {
@@ -1032,6 +1178,12 @@ a:focus-visible {
     margin-bottom: var(--space-3);
 }
 
+html[data-theme="dark"] .timeline-item h4 {
+    background-color: #EAF3FF;
+    color: #0B0E14;
+    border: 1px solid rgba(255, 255, 255, 0.35);
+}
+
 .transition-note {
     font-size: var(--text-sm);
     font-style: italic;
@@ -1059,21 +1211,22 @@ a:focus-visible {
 /* Education & Certifications */
 .education {
     background-color: transparent;
+    padding: var(--space-8) 0;
 }
 
 .education > .container {
-    background-color: rgba(255, 255, 255, 0.94);
+    background-color: var(--color-white);
     border: var(--border-thin);
     border-radius: var(--radius-lg);
     padding-top: var(--space-10);
     padding-bottom: var(--space-10);
-    box-shadow: 0 18px 44px rgba(10, 10, 10, 0.05);
+    box-shadow: var(--shadow-md);
 }
 
 .edu-cert {
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(16rem, 1fr));
-    gap: var(--space-8);
+    gap: var(--space-4);
 }
 
 .edu-cert > div {
@@ -1247,9 +1400,28 @@ a:focus-visible {
         gap: var(--space-3);
     }
 
+    .header-actions {
+        gap: var(--space-2);
+    }
+
     .header-actions .btn {
         font-size: var(--text-sm);
         padding: var(--space-2) var(--space-3);
+    }
+
+    .theme-toggle-track {
+        width: 3.8rem;
+        height: 2.1rem;
+    }
+
+    .theme-toggle-thumb {
+        width: 1.5rem;
+        height: 1.5rem;
+        left: 0.2rem;
+    }
+
+    html[data-theme="dark"] .theme-toggle-thumb {
+        transform: translate(1.68rem, -50%);
     }
 
     .hero {
@@ -1344,6 +1516,38 @@ a:focus-visible {
         padding: var(--space-10) var(--space-3) var(--space-8);
     }
 
+    .header-content {
+        padding: 0 var(--space-3);
+    }
+
+    .social-links {
+        gap: var(--space-1);
+    }
+
+    .logo-link {
+        padding: var(--space-1);
+    }
+
+    .header-actions .btn {
+        font-size: 0.72rem;
+        padding: var(--space-2) var(--space-2);
+    }
+
+    .theme-toggle-track {
+        width: 3.35rem;
+        height: 1.9rem;
+    }
+
+    .theme-toggle-thumb {
+        width: 1.34rem;
+        height: 1.34rem;
+        left: 0.18rem;
+    }
+
+    html[data-theme="dark"] .theme-toggle-thumb {
+        transform: translate(1.45rem, -50%);
+    }
+
     .hero h1 {
         font-size: var(--text-2xl);
     }
@@ -1392,6 +1596,12 @@ a:focus-visible {
         padding-bottom: var(--space-6);
     }
 
+    .competencies,
+    .experience,
+    .education {
+        padding: var(--space-6) 0;
+    }
+
     .skills-banner-container {
         margin: var(--space-6) 0;
     }
@@ -1438,3 +1648,4 @@ a:focus-visible {
         page-break-inside: avoid;
     }
 }
+
