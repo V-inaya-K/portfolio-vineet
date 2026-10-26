@@ -86,19 +86,35 @@
 }
 
 html[data-theme="dark"] {
-    --color-white: #0B0E14;
-    --color-black: #E6E9F0;
-    --color-gray: #232633;
-    --color-charcoal: #1B2130;
-    --color-muted: #94A0B8;
+    --color-white: #10141D;
+    --color-black: #F3F6FC;
+    --color-gray: #2D3445;
+    --color-charcoal: #20293A;
+    --color-muted: #B7C0D4;
     --color-blue: #4D8DF5;
     --color-blue-soft: #14233d;
-    --color-blue-line: rgba(77, 141, 245, 0.2);
+    --color-blue-line: rgba(255, 255, 255, 0.075);
     --border-thin: 1px solid var(--color-gray);
     --border-medium: 2px solid var(--color-gray);
     --shadow-sm: 0 1px 3px rgba(0, 0, 0, 0.35), 0 1px 2px rgba(0, 0, 0, 0.25);
     --shadow-md: 0 8px 18px rgba(0, 0, 0, 0.32);
     --shadow-lg: 0 16px 36px rgba(0, 0, 0, 0.38);
+}
+
+html[data-theme="dark"] body {
+    background:
+        linear-gradient(var(--color-blue-line) 1px, transparent 1px),
+        linear-gradient(90deg, var(--color-blue-line) 1px, transparent 1px),
+        #0B0E14;
+    background-size: 72px 72px;
+}
+
+html[data-theme="dark"] .hero {
+    background:
+        linear-gradient(var(--color-blue-line) 1px, transparent 1px),
+        linear-gradient(90deg, var(--color-blue-line) 1px, transparent 1px),
+        transparent;
+    background-size: 72px 72px;
 }
 
 /* Reset and Base Styles */
@@ -358,7 +374,7 @@ html[data-theme="dark"] .theme-toggle-thumb {
 }
 
 html[data-theme="dark"] .theme-toggle-track {
-    background: #111827;
+    background: #151B28;
     border-color: var(--color-blue);
 }
 
@@ -373,7 +389,7 @@ html[data-theme="dark"] .theme-toggle-moon {
 /* Hero Section */
 .hero {
     background-color: transparent;
-    padding: var(--space-24) 0 var(--space-20);
+    padding: var(--space-20) 0 var(--space-8);
     position: relative;
     overflow: hidden;
 }
@@ -385,6 +401,12 @@ html[data-theme="dark"] .theme-toggle-moon {
     background: linear-gradient(90deg, transparent, var(--color-white) 70%);
     opacity: 0.85;
     pointer-events: none;
+}
+
+html[data-theme="dark"] .hero::before {
+    display: block;
+    background: linear-gradient(90deg, transparent 0 43%, rgba(11, 14, 20, 0.74) 54%, rgba(11, 14, 20, 0.9) 100%);
+    opacity: 1;
 }
 
 .hero::after {
@@ -400,6 +422,17 @@ html[data-theme="dark"] .theme-toggle-moon {
     opacity: 0.45;
     pointer-events: none;
     animation: floatBox 7s ease-in-out infinite;
+}
+
+html[data-theme="dark"] .hero::after,
+html[data-theme="dark"] .profile-placeholder::before,
+html[data-theme="dark"] .profile-placeholder::after {
+    border-color: rgba(255, 255, 255, 0.16);
+    opacity: 0.32;
+}
+
+html[data-theme="dark"] .profile-frame {
+    box-shadow: 18px 18px 0 rgba(77, 141, 245, 0.1);
 }
 
 .hero-content {
@@ -479,7 +512,7 @@ html[data-theme="dark"] .theme-toggle-moon {
 /* Add margin-top to hero section to prevent touching navbar */
 .hero {
     background-color: transparent;
-    padding: var(--space-24) 0 var(--space-20);
+    padding: var(--space-20) 0 var(--space-8);
     position: relative;
     overflow: hidden;
     margin-top: calc(var(--space-4) + var(--space-8)); /* header padding + margin */
@@ -585,7 +618,7 @@ html[data-theme="dark"] .theme-toggle-moon {
     letter-spacing: 0.05em;
     position: relative;
     overflow: hidden;
-    background: transparent;
+    background: var(--color-white);
     color: var(--color-black);
     font-family: var(--font-primary);
 }
@@ -611,16 +644,19 @@ html[data-theme="dark"] .theme-toggle-moon {
 
 .btn-primary {
     border-color: var(--color-black);
+    background-color: var(--color-white);
     color: var(--color-black);
 }
 
 .btn-primary:hover {
     background-color: var(--color-black);
+    border-color: var(--color-black);
     color: var(--color-white);
 }
 
 .btn-secondary {
     border-color: var(--color-black);
+    background-color: var(--color-white);
     color: var(--color-black);
 }
 
@@ -633,9 +669,9 @@ html[data-theme="dark"] .theme-toggle-moon {
     display: inline-flex;
     align-items: center;
     gap: var(--space-2);
-    border-color: var(--color-charcoal);
-    color: var(--color-charcoal);
-    background: transparent;
+    border-color: var(--color-black);
+    color: var(--color-black);
+    background: var(--color-white);
     padding: var(--space-2) var(--space-4);
 }
 
@@ -662,7 +698,7 @@ html[data-theme="dark"] .theme-toggle-moon {
     border: var(--border-thin);
     border-radius: var(--radius-lg);
     padding: var(--space-12);
-    margin: var(--space-8) auto;
+    margin: var(--space-4) auto var(--space-8);
     max-width: 72rem;
     width: calc(100% - var(--space-12));
     box-shadow: var(--shadow-md);
@@ -711,6 +747,7 @@ html[data-theme="dark"] .theme-toggle-moon {
 .competencies {
     background-color: transparent;
     overflow: hidden;
+    padding: var(--space-8) 0;
 }
 
 .competencies > .container {
@@ -1007,7 +1044,7 @@ html[data-theme="dark"] .theme-toggle-moon {
 .competency-categories {
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(16rem, 1fr));
-    gap: var(--space-8);
+    gap: var(--space-4);
 }
 
 .category {
@@ -1062,6 +1099,7 @@ html[data-theme="dark"] .theme-toggle-moon {
 /* Experience Section */
 .experience {
     background-color: transparent;
+    padding: var(--space-8) 0;
 }
 
 .experience > .container {
@@ -1075,7 +1113,7 @@ html[data-theme="dark"] .theme-toggle-moon {
 
 .timeline {
     display: grid;
-    gap: var(--space-12);
+    gap: var(--space-4);
 }
 
 .timeline-item {
@@ -1140,6 +1178,12 @@ html[data-theme="dark"] .theme-toggle-moon {
     margin-bottom: var(--space-3);
 }
 
+html[data-theme="dark"] .timeline-item h4 {
+    background-color: #EAF3FF;
+    color: #0B0E14;
+    border: 1px solid rgba(255, 255, 255, 0.35);
+}
+
 .transition-note {
     font-size: var(--text-sm);
     font-style: italic;
@@ -1167,6 +1211,7 @@ html[data-theme="dark"] .theme-toggle-moon {
 /* Education & Certifications */
 .education {
     background-color: transparent;
+    padding: var(--space-8) 0;
 }
 
 .education > .container {
@@ -1181,7 +1226,7 @@ html[data-theme="dark"] .theme-toggle-moon {
 .edu-cert {
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(16rem, 1fr));
-    gap: var(--space-8);
+    gap: var(--space-4);
 }
 
 .edu-cert > div {
@@ -1549,6 +1594,12 @@ html[data-theme="dark"] .theme-toggle-moon {
         border-radius: var(--radius-md);
         padding-top: var(--space-6);
         padding-bottom: var(--space-6);
+    }
+
+    .competencies,
+    .experience,
+    .education {
+        padding: var(--space-6) 0;
     }
 
     .skills-banner-container {
