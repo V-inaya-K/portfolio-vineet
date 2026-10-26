@@ -4,6 +4,13 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Vineet Shukla | IT Service Delivery & Operations Leader</title>
+    <script>
+        (function () {
+            const storedTheme = localStorage.getItem('portfolio-theme');
+            const prefersDark = window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches;
+            document.documentElement.dataset.theme = storedTheme || (prefersDark ? 'dark' : 'light');
+        })();
+    </script>
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
@@ -22,7 +29,14 @@
                 </a>
             </div>
             <div class="header-actions">
-                <a href="assets/resume.pdf" class="btn btn-primary" download>Download Resume</a>
+              <button class="theme-toggle" id="themeToggle" type="button" aria-label="Switch to dark mode" aria-pressed="false">
+                <span class="theme-toggle-track" aria-hidden="true">
+                    <span class="theme-toggle-icon theme-toggle-sun">☀</span>
+                    <span class="theme-toggle-icon theme-toggle-moon">☾</span>
+                    <span class="theme-toggle-thumb"></span>
+                </span>
+              </button>
+              <a href="assets/resume.pdf" class="btn btn-primary" download>Download Resume</a>
             </div>
         </div>
     </header>
@@ -226,6 +240,27 @@
     </footer>
 
     <script>
+        // Theme toggle
+        const themeToggle = document.getElementById('themeToggle');
+        const storedTheme = localStorage.getItem('portfolio-theme');
+        const prefersDark = window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches;
+        const initialTheme = storedTheme || (prefersDark ? 'dark' : 'light');
+
+        function applyTheme(theme) {
+            document.documentElement.dataset.theme = theme;
+            const isDark = theme === 'dark';
+            themeToggle.setAttribute('aria-pressed', String(isDark));
+            themeToggle.setAttribute('aria-label', isDark ? 'Switch to light mode' : 'Switch to dark mode');
+        }
+
+        applyTheme(initialTheme);
+
+        themeToggle.addEventListener('click', () => {
+            const nextTheme = document.documentElement.dataset.theme === 'dark' ? 'light' : 'dark';
+            localStorage.setItem('portfolio-theme', nextTheme);
+            applyTheme(nextTheme);
+        });
+
         // Set current year in footer
         document.getElementById('year').textContent = new Date().getFullYear();
 
